@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- <h1>Employee testing</h1> -->
+    <div id="successAlert" class="alert alert-success d-none" role="alert">
+        Form submitted successfully!
+    </div>
+    
+    <!-- Error alert (hidden by default) -->
+    <div id="errorAlert" class="alert alert-danger d-none" role="alert">
+        Error submitting form. Please try again.
+    </div>
+
+    
+    <form method="post" id="employeeForm">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="employee_name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="emp_name" name="emp_name">
+        </div>
+
+        <div class="mb-3">
+          <label for="employee_designation" class="form-label">Designation</label>
+          <select class="form-select" aria-label="Designation dropdown" name="emp_designation">
+            <option selected>Select Designation</option>
+            <option value="backend_developer">Backend Developer</option>
+            <option value="ui/ux">UI/UX</option>
+            <option value="frontend_developer">Frontend Developer</option>
+            <option value="devaops">Devops</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="employee_experiance" class="form-label">Experiance (in year)</label>
+          <input type="number" class="form-control" id="emp_experiance" name="emp_experiance">
+        </div>
+
+        <div class="mb-3">
+          <label for="employee_salary" class="form-label">Salary (in LPA)</label>
+          <input type="number" class="form-control" id="emp_salary" name="emp_salary">
+        </div>
+        
+        <div class="mb-3">
+          <label for="employee_city" class="form-label">City</label>
+          <input type="text" class="form-control" id="emp_salary" name="emp_city">
+        </div>
+        
+        <button type="button" onclick="submitForm()" class="btn btn-success" id="employeeSubmit">Submit</button>
+      </form>
+
+
+      <table class="table">
+        <thead>
+          <tr>
+            {% comment %} <th scope="col">ID</th> {% endcomment %}
+            <th scope="col">Name</th>
+            <th scope="col">Designation</th>
+            <th scope="col">Experiance (in year)</th>
+            <th scope="col">Salary (anual in LPA)</th>
+            <th scope="col">City</th>
+            <th scope="col">Operation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for employee in employees  %}
+            <tr>
+              {% comment %} <td>{{employee.id}}</td> {% endcomment %}
+              <td>{{employee.name}}</td>
+              <td>{{employee.designation}}</td>
+              <td>{{employee.experiance}}</td>
+              <td>{{employee.salary}}</td>
+              <td>{{employee.city}}</td>
+              <td><div>
+                <button type="button" onclick="openUpdatePopup('{{employee.id}}', '{{employee.name}}', '{{employee.designation}}', '{{employee.experiance}}', '{{employee.salary}}', '{{employee.city}}')" class="btn btn-primary" id="employeeSubmit">Update</button>
+                <button type="button" onclick="deleteData('{{employee.id}}')" class="btn btn-danger" id="employeeSubmit">Delete</button>
+
+              </div></td>
+              
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+
+      <div id="popupForm" class="popup">
+        <div class="popup-content">
+            <span id="closeButton" class="close">&times;</span>
+            <form method="put" id="employeeUpdateForm">
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="employee_name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="up_emp_name" name="up_emp_name">
+              </div>
+      
+              <div class="mb-3">
+                <label for="employee_designation" class="form-label">Designation</label>
+                <select class="form-select" aria-label="Designation dropdown" name="up_emp_designation" id="up_emp_designation">
+                  <option selected>Select Designation</option>
+                  <option value="backend_developer">Backend Developer</option>
+                  <option value="ui/ux">UI/UX</option>
+                  <option value="frontend_developer">Frontend Developer</option>
+                  <option value="devaops">Devops</option>
+                </select>
+              </div>
+      
+              <div class="mb-3">
+                <label for="employee_experiance" class="form-label">Experiance (in year)</label>
+                <input type="number" class="form-control" id="up_emp_experiance" name="up_emp_experiance">
+              </div>
+      
+              <div class="mb-3">
+                <label for="employee_salary" class="form-label">Salary (in LPA)</label>
+                <input type="number" class="form-control" id="up_emp_salary" name="up_emp_salary">
+              </div>
+              
+              <div class="mb-3">
+                <label for="employee_city" class="form-label">City</label>
+                <input type="text" class="form-control" id="up_emp_city" name="up_emp_city">
+              </div>
+              
+              <button type="button" onclick="submitUpdateForm()" class="btn btn-success" id="submitUpdateButton">Save</button>
+              <button type="button" onclick="closeUpdatePopup()" class="btn btn-success" id="closeEmployeeForm">Close</button>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock %}
